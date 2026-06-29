@@ -13,7 +13,7 @@ using System.Reflection;
 [assembly: System.Reflection.AssemblyCompanyAttribute("TarefasDiaADia.API")]
 [assembly: System.Reflection.AssemblyConfigurationAttribute("Debug")]
 [assembly: System.Reflection.AssemblyFileVersionAttribute("1.0.0.0")]
-[assembly: System.Reflection.AssemblyInformationalVersionAttribute("1.0.0")]
+[assembly: System.Reflection.AssemblyInformationalVersionAttribute("1.0.0+669e960926104a8a24f10bbca3349fbe2a718e1e")]
 [assembly: System.Reflection.AssemblyProductAttribute("TarefasDiaADia.API")]
 [assembly: System.Reflection.AssemblyTitleAttribute("TarefasDiaADia.API")]
 [assembly: System.Reflection.AssemblyVersionAttribute("1.0.0.0")]
