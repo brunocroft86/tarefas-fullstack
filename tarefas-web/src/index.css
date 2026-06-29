@@ -1,0 +1,24 @@
+:root {
+  /* Cores Principais */
+  --cor-fundo: #1A0B2E; /* Roxo Profundo elegante */
+  --cor-primaria: #FF6B00; /* Laranja Néon vibrante */
+  --cor-texto: #FFFFFF;
+  --cor-card: #2D1B4E; /* Roxo para os cards de tarefa */
+  
+  /* Categorias Gamificadas */
+  --tag-trabalho: #FF007F; /* Rosa Choque */
+  --tag-lazer: #39FF14; /* Verde Limão */
+  --tag-casa: #00FFFF; /* Azul Ciano */
+}
+
+body {
+  background-color: var(--cor-fundo);
+  color: var(--cor-texto);
+  font-family: system-ui, -apple-system, sans-serif;
+  margin: 0;
+  padding: 0;
+  
+  /* Comportamento de App Mobile-First no navegador */
+  overscroll-behavior-y: none; 
+  -webkit-tap-highlight-color: transparent; 
+}

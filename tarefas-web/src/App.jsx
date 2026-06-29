@@ -1,0 +1,72 @@
+import { useState, useEffect } from 'react'
+import { motion, AnimatePresence } from 'framer-motion'
+import './App.css'
+
+const API_URL = 'http://localhost:5164'; // A porta que apareceu no seu terminal
+
+function App() {
+  const [tarefas, setTarefas] = useState([]);
+  const [modalAberto, setModalAberto] = useState(false);
+  const [textoTarefa, setTextoTarefa] = useState('');
+  
+  // Buscar tarefas da API
+  const carregarTarefas = async () => {
+    const res = await fetch(`${API_URL}/tarefas`);
+    const data = await res.json();
+    setTarefas(data);
+  };
+
+  useEffect(() => { carregarTarefas(); }, []);
+
+  const salvarNovaTarefa = async () => {
+    if (textoTarefa.trim() === '') return;
+    const nova = { titulo: textoTarefa, categoria: 'Geral', corTag: '#FF6B00' };
+    
+    await fetch(`${API_URL}/tarefas`, {
+      method: 'POST',
+      headers: { 'Content-Type': 'application/json' },
+      body: JSON.stringify(nova)
+    });
+    
+    setTextoTarefa('');
+    setModalAberto(false);
+    carregarTarefas(); // Atualiza a lista
+  };
+
+  const concluirTarefa = async (id) => {
+    await fetch(`${API_URL}/tarefas/${id}`, { method: 'DELETE' });
+    carregarTarefas();
+  };
+
+  return (
+    <div style={{ padding: '20px', display: 'flex', flexDirection: 'column', alignItems: 'center', minHeight: '100vh', paddingBottom: '100px' }}>
+      <h1 style={{ color: 'var(--cor-primaria)', textAlign: 'center' }}>Tarefas do Nosso Dia a Dia</h1>
+      
+      <div style={{ width: '100%', maxWidth: '400px', display: 'flex', flexDirection: 'column', gap: '15px' }}>
+        {tarefas.map((tarefa) => (
+          <motion.div 
+            key={tarefa.id}
+            drag="x" dragConstraints={{ left: 0, right: 0 }}
+            onDragEnd={(e, info) => info.offset.x > 100 && concluirTarefa(tarefa.id)}
+            style={{ backgroundColor: 'var(--cor-card)', padding: '20px', borderRadius: '16px', cursor: 'grab' }}
+          >
+            <h3>{tarefa.titulo}</h3>
+          </motion.div>
+        ))}
+      </div>
+
+      <button onClick={() => setModalAberto(true)} style={{ position: 'fixed', bottom: '30px', padding: '18px 40px', borderRadius: '30px', backgroundColor: 'var(--cor-primaria)', color: 'white', border: 'none', cursor: 'pointer' }}>
+        + Nova Tarefa
+      </button>
+
+      {modalAberto && (
+        <div style={{ position: 'fixed', bottom: 0, left: 0, right: 0, padding: '30px', backgroundColor: '#1A0B2E', borderTopLeftRadius: '30px', borderTopRightRadius: '30px', zIndex: 100 }}>
+          <input type="text" value={textoTarefa} onChange={(e) => setTextoTarefa(e.target.value)} style={{ width: '100%', padding: '15px', borderRadius: '10px' }} />
+          <button onClick={salvarNovaTarefa} style={{ marginTop: '10px', width: '100%', padding: '15px', borderRadius: '10px', backgroundColor: 'var(--cor-primaria)', border: 'none', color: 'white' }}>Salvar na API</button>
+        </div>
+      )}
+    </div>
+  )
+}
+
+export default App
